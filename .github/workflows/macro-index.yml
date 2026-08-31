@@ -1,0 +1,69 @@
+name: Update Macro Index
+
+on:
+  push:
+    paths:
+      - "macros/**"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-index:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Generate index
+        shell: python
+        run: |
+          import json
+          from pathlib import Path
+
+          formats = ["gdr", "gdr2", "json", "slc2", "slc3"]
+          macros = []
+
+          for fmt in formats:
+              folder = Path("macros") / fmt
+
+              if not folder.exists():
+                  continue
+
+              for file in sorted(folder.iterdir()):
+                  if not file.is_file():
+                      continue
+
+                  macros.append({
+                      "id": file.stem,
+                      "name": file.stem,
+                      "format": fmt,
+                      "file": file.as_posix()
+                  })
+
+          index = {
+              "version": 1,
+              "macros": macros
+          }
+
+          Path("index.json").write_text(
+              json.dumps(index, indent=2, ensure_ascii=False) + "\n",
+              encoding="utf-8"
+          )
+
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add index.json
+
+          if git diff --cached --quiet; then
+            echo "No changes."
+            exit 0
+          fi
+
+          git commit -m "chore: update macro index"
+          git push
