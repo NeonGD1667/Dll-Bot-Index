@@ -1,4 +1,15 @@
 {
   "version": 1,
-  "macros": []
+  "macros": [
+    {
+      "id": "example-macro",
+      "name": "Example Macro",
+      "format": "gdr2",
+      "file": "macros/example.gdr2",
+      "metadata": {
+        "duration": 120.5,
+        "fps": 240
+      }
+    }
+  ]
 }
