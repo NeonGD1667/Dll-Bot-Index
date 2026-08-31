@@ -2,14 +2,40 @@
   "version": 1,
   "macros": [
     {
-      "id": "example-macro",
-      "name": "Example Macro",
+      "id": "entry",
+      "name": "entry",
+      "format": "gdr",
+      "file": "macros/gdr/entry.cpp"
+    },
+    {
+      "id": "entry",
+      "name": "entry",
       "format": "gdr2",
-      "file": "macros/example.gdr2",
-      "metadata": {
-        "duration": 120.5,
-        "fps": 240
-      }
+      "file": "macros/gdr2/entry.cs"
+    },
+    {
+      "id": "mod",
+      "name": "mod",
+      "format": "json",
+      "file": "macros/json/mod.json"
+    },
+    {
+      "id": "fun",
+      "name": "fun",
+      "format": "slc2",
+      "file": "macros/slc2/fun.rs"
+    },
+    {
+      "id": "fun",
+      "name": "fun",
+      "format": "slc3",
+      "file": "macros/slc3/fun.luau"
+    },
+    {
+      "id": "funnymacro",
+      "name": "funnymacro",
+      "format": "slc3",
+      "file": "macros/slc3/funnymacro.slc3"
     }
   ]
 }
