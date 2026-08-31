@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "status": "bro_the_macro_is_here",
+  "macros": [
+    {
+      "id": "totally-legit",
+      "name": "Totally Legit Macro",
+      "format": "gdr2",
+      "file": "macros/gdr2/totally-legit.gdr2",
+      "difficulty": "💀",
+      "skill_required": "touch grass",
+      "verified": true
+    },
+    {
+      "id": "sleep-deprived",
+      "name": "Sleep Deprived",
+      "format": "slc3",
+      "file": "macros/slc3/sleep-deprived.slc3",
+      "difficulty": "💀💀💀",
+      "skill_required": "0 hours of sleep",
+      "verified": false
+    }
+  ],
+  "message": "If this file is broken, blame the macro."
+}
