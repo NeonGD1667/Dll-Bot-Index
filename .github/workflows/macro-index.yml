@@ -9,6 +9,11 @@ on:
 permissions:
   contents: write
 
+# Tránh 2 lần chạy cùng lúc ghi đè / push chồng nhau.
+concurrency:
+  group: update-macro-index
+  cancel-in-progress: false
+
 jobs:
   update-index:
     runs-on: ubuntu-latest
@@ -22,36 +27,110 @@ jobs:
         run: |
           import json
           from pathlib import Path
+          from urllib.parse import quote
 
-          formats = ["gdr", "gdr2", "json", "slc2", "slc3"]
+          # format -> các đuôi file hợp lệ (đuôi dài xếp trước)
+          FORMATS = {
+              "gdr":  [".gdr"],
+              "gdr2": [".gdr2"],
+              "json": [".gdr.json", ".json"],
+              "slc2": [".slc2"],
+              "slc3": [".slc3"],
+          }
+
+          # Metadata tuỳ chọn: macros/meta.json
+          #   { "funnymacro-slc3": { "level_name": "...", "level_id": 128,
+          #                          "difficulty": "Hard", "uploader": "...",
+          #                          "rating": 4.5 } }
+          # Key là id của macro: "<tên file không đuôi>-<format>".
+          META_STRING_KEYS = ("level_name", "difficulty", "uploader")
+          META_NUMBER_KEYS = ("level_id", "rating")
+
+          meta = {}
+          meta_path = Path("macros") / "meta.json"
+
+          if meta_path.is_file():
+              try:
+                  loaded = json.loads(meta_path.read_text(encoding="utf-8"))
+                  if isinstance(loaded, dict):
+                      meta = loaded
+                  else:
+                      print("meta.json: root must be an object, ignored")
+              except Exception as e:
+                  print(f"meta.json: invalid JSON, ignored ({e})")
+
           macros = []
+          seen_ids = set()
 
-          for fmt in formats:
+          for fmt, exts in FORMATS.items():
               folder = Path("macros") / fmt
 
-              if not folder.exists():
+              if not folder.is_dir():
                   continue
 
-              for file in sorted(folder.iterdir()):
-                  if not file.is_file():
+              for file in sorted(folder.iterdir(), key=lambda p: p.name.lower()):
+                  if not file.is_file() or file.name.startswith("."):
                       continue
 
-                  macros.append({
-                      "id": file.stem,
-                      "name": file.stem,
+                  lower = file.name.lower()
+                  ext = next((e for e in exts if lower.endswith(e)), None)
+
+                  if ext is None:
+                      print(f"Skip (wrong extension): {file}")
+                      continue
+
+                  name = file.name[: -len(ext)]
+
+                  if not name:
+                      print(f"Skip (empty name): {file}")
+                      continue
+
+                  macro_id = f"{name}-{fmt}"
+
+                  if macro_id in seen_ids:
+                      print(f"Skip (duplicate id {macro_id}): {file}")
+                      continue
+
+                  seen_ids.add(macro_id)
+
+                  entry = {
+                      "id": macro_id,
+                      "name": name,
                       "format": fmt,
-                      "file": file.as_posix()
-                  })
+                      "file": quote(file.as_posix()),
+                  }
+
+                  info = meta.get(macro_id)
+
+                  if isinstance(info, dict):
+                      for key in META_STRING_KEYS:
+                          value = info.get(key)
+                          if isinstance(value, str) and value.strip():
+                              entry[key] = value.strip()
+
+                      for key in META_NUMBER_KEYS:
+                          value = info.get(key)
+                          if isinstance(value, (int, float)) and not isinstance(value, bool):
+                              entry[key] = value
+
+                  macros.append(entry)
+
+          for key in meta:
+              if key not in seen_ids:
+                  print(f"meta.json: no macro with id '{key}'")
 
           index = {
               "version": 1,
-              "macros": macros
+              "count": len(macros),
+              "macros": macros,
           }
 
           Path("index.json").write_text(
               json.dumps(index, indent=2, ensure_ascii=False) + "\n",
-              encoding="utf-8"
+              encoding="utf-8",
           )
+
+          print(f"Generated index.json with {len(macros)} macro(s)")
 
       - name: Commit changes
         run: |
@@ -66,4 +145,5 @@ jobs:
           fi
 
           git commit -m "chore: update macro index"
+          git pull --rebase
           git push
