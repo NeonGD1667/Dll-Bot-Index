@@ -1,12 +1,12 @@
-# Dll-Bot-Index
+# White-Bot-Index
 
-Index for Dll Bot.
+Index for **White Bot**.
 
 ## About
 
-**Dll-Bot-Index** is the macro index for Dll Bot.
+**White-Bot-Index** is the macro index for **White Bot**.
 
-It provides a centralized list of available macros and their metadata so Dll Bot can find and load macros easily.
+It provides a centralized list of available macros and their metadata so **White Bot** can find and load macros easily.
 
 ## Features
 
