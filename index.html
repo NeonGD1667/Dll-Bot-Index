@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>White Bot Index</title>
+<meta name="description" content="White Bot Index – tìm và tải macro Geometry Dash cho White Bot.">
+<style>
+  :root {
+    --bg: #0b0b0e;
+    --panel: #14141a;
+    --panel-2: #1b1b23;
+    --line: #26262f;
+    --text: #ececf1;
+    --muted: #9a9aa8;
+    --accent: #ffffff;
+    --accent-ink: #0b0b0e;
+    --ok: #5ee0a0;
+    --radius: 14px;
+  }
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme="dark"]) {
+      --bg: #f6f6f8; --panel: #ffffff; --panel-2: #f0f0f4; --line: #e0e0e8;
+      --text: #15151a; --muted: #6a6a78; --accent: #15151a; --accent-ink: #ffffff;
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #f6f6f8; --panel: #ffffff; --panel-2: #f0f0f4; --line: #e0e0e8;
+    --text: #15151a; --muted: #6a6a78; --accent: #15151a; --accent-ink: #ffffff;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; }
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 0 20px; }
+
+  /* nav */
+  header.nav {
+    position: sticky; top: 0; z-index: 10;
+    background: color-mix(in srgb, var(--bg) 85%, transparent);
+    backdrop-filter: blur(10px); border-bottom: 1px solid var(--line);
+  }
+  .nav .wrap { display: flex; align-items: center; gap: 18px; height: 60px; }
+  .brand { font-weight: 800; letter-spacing: .02em; text-decoration: none; display: flex; align-items: center; gap: 10px; }
+  .brand .dot { width: 14px; height: 14px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 18px color-mix(in srgb, var(--accent) 60%, transparent); }
+  .nav nav { display: flex; gap: 6px; margin-left: auto; }
+  .nav nav a, .theme {
+    text-decoration: none; padding: 7px 14px; border-radius: 999px; color: var(--muted);
+    font-size: 14px; font-weight: 600; border: 0; background: none; cursor: pointer; font-family: inherit;
+  }
+  .nav nav a:hover, .theme:hover { color: var(--text); background: var(--panel-2); }
+  .nav nav a.active { color: var(--accent-ink); background: var(--accent); }
+
+  /* hero */
+  .hero { padding: 84px 0 56px; text-align: center; }
+  .hero h1 { font-size: clamp(40px, 8vw, 76px); margin: 0 0 14px; letter-spacing: -.03em; line-height: 1.02; }
+  .hero p { color: var(--muted); max-width: 560px; margin: 0 auto 28px; font-size: 18px; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px; padding: 11px 20px; border-radius: 999px;
+    background: var(--accent); color: var(--accent-ink); font-weight: 700; text-decoration: none;
+    border: 1px solid var(--accent); cursor: pointer; font-family: inherit; font-size: 15px;
+  }
+  .btn:hover { opacity: .88; }
+  .btn.ghost { background: transparent; color: var(--text); border-color: var(--line); }
+  .btn.ghost:hover { background: var(--panel-2); opacity: 1; }
+  .btn.sm { padding: 7px 14px; font-size: 13px; }
+  .row { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 8px 0 56px; }
+  .stat { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px; }
+  .stat b { display: block; font-size: 28px; letter-spacing: -.02em; }
+  .stat span { color: var(--muted); font-size: 13px; }
+
+  section.block { margin: 0 0 56px; }
+  h2 { font-size: 26px; margin: 0 0 18px; letter-spacing: -.02em; }
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px; }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px; }
+  .card h3 { margin: 0 0 6px; font-size: 16px; }
+  .card p { margin: 0; color: var(--muted); font-size: 14px; }
+
+  .timeline { border-left: 2px solid var(--line); margin-left: 6px; padding-left: 22px; display: grid; gap: 22px; }
+  .tl { position: relative; }
+  .tl::before { content: ""; position: absolute; left: -29px; top: 6px; width: 12px; height: 12px; border-radius: 50%; background: var(--accent); border: 3px solid var(--bg); }
+  .tl small { color: var(--muted); font-weight: 600; letter-spacing: .04em; text-transform: uppercase; font-size: 12px; }
+  .tl h3 { margin: 2px 0 4px; font-size: 17px; }
+  .tl p { margin: 0; color: var(--muted); }
+
+  /* macros */
+  .page-title { padding: 44px 0 20px; }
+  .page-title h1 { margin: 0 0 6px; font-size: 34px; letter-spacing: -.02em; }
+  .page-title p { margin: 0; color: var(--muted); }
+  .tools { display: grid; grid-template-columns: 1fr auto auto; gap: 10px; margin-bottom: 14px; }
+  @media (max-width: 640px) { .tools { grid-template-columns: 1fr 1fr; } .tools .search { grid-column: 1 / -1; } }
+  input, select {
+    background: var(--panel); color: var(--text); border: 1px solid var(--line); border-radius: 12px;
+    padding: 12px 14px; font: inherit; font-size: 15px; width: 100%;
+  }
+  input:focus, select:focus { outline: 2px solid color-mix(in srgb, var(--accent) 50%, transparent); outline-offset: 1px; }
+  .chips { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px; }
+  .chip {
+    padding: 6px 13px; border-radius: 999px; background: var(--panel); border: 1px solid var(--line);
+    font-size: 13px; font-weight: 600; color: var(--muted); cursor: pointer; font-family: inherit;
+  }
+  .chip.on { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+  .count { color: var(--muted); font-size: 13px; margin-bottom: 10px; }
+
+  .list { display: grid; gap: 10px; padding-bottom: 70px; }
+  .macro {
+    display: grid; grid-template-columns: 1fr auto; gap: 14px; align-items: center;
+    background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px 18px;
+  }
+  .macro:hover { border-color: color-mix(in srgb, var(--accent) 35%, var(--line)); }
+  .macro h3 { margin: 0 0 6px; font-size: 17px; word-break: break-word; }
+  .meta { display: flex; gap: 8px 14px; flex-wrap: wrap; color: var(--muted); font-size: 13px; }
+  .tag { background: var(--panel-2); border: 1px solid var(--line); border-radius: 6px; padding: 1px 8px; font-weight: 700; font-size: 12px; color: var(--text); text-transform: uppercase; }
+  .actions { display: flex; gap: 8px; }
+  @media (max-width: 560px) { .macro { grid-template-columns: 1fr; } }
+  .empty { text-align: center; color: var(--muted); padding: 60px 0; border: 1px dashed var(--line); border-radius: var(--radius); }
+  .err { color: #ff8a8a; }
+
+  footer { border-top: 1px solid var(--line); color: var(--muted); font-size: 13px; padding: 26px 0 40px; text-align: center; }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="#/"><span class="dot"></span> White Bot</a>
+    <nav>
+      <a href="#/" data-route="home">Trang chủ</a>
+      <a href="#/macros" data-route="macros">Macro</a>
+      <button class="theme" id="theme" title="Đổi giao diện sáng/tối" aria-label="Đổi giao diện">◐</button>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- HOME -->
+  <div id="view-home">
+    <section class="hero">
+      <h1>White Bot</h1>
+      <p>Bot macro cho Geometry Dash. Ghi, phát và render macro, hỗ trợ mọi nền tảng.</p>
+      <div class="row">
+        <a class="btn" href="#/macros">Xem macro</a>
+        <a class="btn ghost" href="https://github.com/NeonGD1667/Dll-Bot-Index" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </section>
+
+    <div class="stats">
+      <div class="stat"><b id="stat-count">–</b><span>macro trong index</span></div>
+      <div class="stat"><b id="stat-formats">–</b><span>định dạng hỗ trợ</span></div>
+      <div class="stat"><b>All</b><span>nền tảng (gồm iOS)</span></div>
+    </div>
+
+    <section class="block">
+      <h2>Giới thiệu</h2>
+      <div class="cards">
+        <div class="card"><h3>Macro / Record</h3><p>Ghi lại và phát lại macro ngay trong game.</p></div>
+        <div class="card"><h3>Render</h3><p>Xuất video từ macro bằng panel Render.</p></div>
+        <div class="card"><h3>Tải macro trong game</h3><p>Duyệt index và tải macro trực tiếp từ mod, không cần ra ngoài.</p></div>
+        <div class="card"><h3>Đa nền tảng</h3><p>Chạy trên mọi nền tảng, bao gồm cả bản iOS.</p></div>
+      </div>
+    </section>
+
+    <section class="block">
+      <h2>Lịch sử White Bot</h2>
+      <div class="timeline">
+        <div class="tl"><small>22/04/2026</small><h3>Ra đời</h3><p>Dự án bắt đầu với tên ban đầu là DLL Bot.</p></div>
+        <div class="tl"><small>23/07/2026</small><h3>Hoàn thiện Settings</h3><p>Các cài đặt của bot được hoàn thiện.</p></div>
+        <div class="tl"><small>19/09/2026</small><h3>Đổi tên thành White Bot</h3><p>DLL Bot chính thức mang tên White Bot.</p></div>
+        <div class="tl"><small>25/10/2026</small><h3>Bản release mới nhất, hỗ trợ iOS</h3><p>White Bot hỗ trợ iOS, chạy trên mọi nền tảng.</p></div>
+      </div>
+    </section>
+
+    <section class="block">
+      <h2>Gửi macro</h2>
+      <div class="card">
+        <p>Muốn đưa macro của bạn lên index? Gửi macro qua Discord, macro sẽ được kiểm tra rồi mới thêm vào repo.</p>
+        <!-- TODO: thay bằng link Discord thật -->
+        <p style="margin-top:12px"><a class="btn ghost sm" id="discord" href="#" rel="noopener">Tham gia Discord</a></p>
+      </div>
+    </section>
+  </div>
+
+  <!-- MACROS -->
+  <div id="view-macros" hidden>
+    <div class="page-title">
+      <h1>Macro</h1>
+      <p>Tìm theo tên, level, người làm hoặc ID level.</p>
+    </div>
+
+    <div class="tools">
+      <input class="search" id="q" type="search" placeholder="Tìm macro..." autocomplete="off">
+      <select id="sort" aria-label="Sắp xếp">
+        <option value="name">Tên A–Z</option>
+        <option value="rating">Rating cao nhất</option>
+        <option value="level">Level A–Z</option>
+      </select>
+    </div>
+    <div class="chips" id="chips"></div>
+    <div class="count" id="count"></div>
+    <div class="list" id="list"></div>
+  </div>
+
+</main>
+
+<footer>
+  <div class="wrap">White Bot Index · Dữ liệu từ <code>index.json</code></div>
+</footer>
+
+<script>
+(() => {
+  const DISCORD_URL = "";           // điền link Discord vào đây
+  const INDEX_URL = "index.json";
+
+  const $ = (s) => document.querySelector(s);
+  let macros = [];
+  let fmt = "all";
+
+  // ---------- theme ----------
+  const root = document.documentElement;
+  try { const t = localStorage.getItem("theme"); if (t) root.dataset.theme = t; } catch {}
+  $("#theme").addEventListener("click", () => {
+    const dark = getComputedStyle(root).getPropertyValue("--bg").trim() === "#0b0b0e";
+    const next = dark ? "light" : "dark";
+    root.dataset.theme = next;
+    try { localStorage.setItem("theme", next); } catch {}
+  });
+
+  if (DISCORD_URL) { $("#discord").href = DISCORD_URL; $("#discord").target = "_blank"; }
+  else $("#discord").closest("p").hidden = true;
+
+  // ---------- routing ----------
+  function route() {
+    const r = location.hash.startsWith("#/macros") ? "macros" : "home";
+    $("#view-home").hidden = r !== "home";
+    $("#view-macros").hidden = r !== "macros";
+    document.querySelectorAll("[data-route]").forEach(a => a.classList.toggle("active", a.dataset.route === r));
+    window.scrollTo(0, 0);
+  }
+  addEventListener("hashchange", route);
+
+  // ---------- helpers ----------
+  const esc = (s) => String(s ?? "").replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
+  const norm = (s) => String(s ?? "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
+  // file trong index.json đã được url-encode sẵn; tránh encode đôi
+  const fileUrl = (m) => m.file;
+
+  function haystack(m) {
+    return norm([m.name, m.id, m.format, m.level_name, m.level_id, m.uploader, m.difficulty].join(" "));
+  }
+
+  // ---------- render ----------
+  function render() {
+    const q = norm($("#q").value.trim());
+    const sort = $("#sort").value;
+
+    let items = macros.filter(m => (fmt === "all" || m.format === fmt) && (!q || haystack(m).includes(q)));
+
+    items.sort((a, b) => {
+      if (sort === "rating") return (b.rating ?? -1) - (a.rating ?? -1) || a.name.localeCompare(b.name);
+      if (sort === "level") return (a.level_name || "~").localeCompare(b.level_name || "~") || a.name.localeCompare(b.name);
+      return a.name.localeCompare(b.name, undefined, { sensitivity: "base" });
+    });
+
+    $("#count").textContent = items.length + " macro";
+
+    if (!items.length) {
+      $("#list").innerHTML = '<div class="empty">Không tìm thấy macro nào.</div>';
+      return;
+    }
+
+    $("#list").innerHTML = items.map(m => {
+      const bits = [];
+      if (m.level_name) bits.push("Level: " + esc(m.level_name));
+      if (m.level_id != null) bits.push("ID " + esc(m.level_id));
+      if (m.difficulty) bits.push(esc(m.difficulty));
+      if (m.uploader) bits.push("bởi " + esc(m.uploader));
+      if (m.rating != null) bits.push("★ " + esc(m.rating));
+      const dl = fileUrl(m);
+      const fname = decodeURIComponent(dl.split("/").pop());
+      return `
+        <article class="macro">
+          <div>
+            <h3>${esc(m.name)}</h3>
+            <div class="meta"><span class="tag">${esc(m.format)}</span>${bits.map(b => `<span>${b}</span>`).join("")}</div>
+          </div>
+          <div class="actions">
+            <a class="btn sm" href="${esc(dl)}" download="${esc(fname)}">Tải xuống</a>
+          </div>
+        </article>`;
+    }).join("");
+  }
+
+  function renderChips() {
+    const formats = [...new Set(macros.map(m => m.format))].sort();
+    $("#chips").innerHTML = ["all", ...formats].map(f =>
+      `<button class="chip ${f === fmt ? "on" : ""}" data-f="${esc(f)}">${f === "all" ? "Tất cả" : esc(f)}</button>`
+    ).join("");
+    $("#stat-formats").textContent = formats.length;
+  }
+
+  $("#chips").addEventListener("click", (e) => {
+    const b = e.target.closest(".chip"); if (!b) return;
+    fmt = b.dataset.f; renderChips(); render();
+  });
+  $("#q").addEventListener("input", render);
+  $("#sort").addEventListener("change", render);
+
+  // ---------- load ----------
+  fetch(INDEX_URL, { cache: "no-cache" })
+    .then(r => { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
+    .then(data => {
+      macros = (Array.isArray(data.macros) ? data.macros : []).filter(m => m && m.name && m.file);
+      $("#stat-count").textContent = macros.length;
+      renderChips(); render();
+    })
+    .catch(err => {
+      $("#stat-count").textContent = "–";
+      $("#list").innerHTML = `<div class="empty err">Không tải được index.json (${esc(err.message)}).</div>`;
+    });
+
+  route();
+})();
+</script>
+</body>
+</html>
